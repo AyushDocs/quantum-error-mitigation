@@ -10,14 +10,14 @@ __pycache__/
 *.pyd
 
 # Build and distribution files
-build/
-dist/
+/build/
+/dist/
 downloads/
 eggs/
 .eggs/
-lib/
+/lib/
 .next
-lib64/
+/lib64/
 out
 parts/
 node_modules
