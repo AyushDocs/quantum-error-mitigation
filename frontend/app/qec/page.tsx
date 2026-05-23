@@ -396,13 +396,32 @@ export default function QECPage() {
                     contentStyle={{ background: '#05180f', border: '1px solid #10b981', borderRadius: '12px', color: '#e2e8f0', fontSize: '11px' }}
                     labelFormatter={(label) => `Logical Qubits: ${label}`}
                   />
-                  <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '10px' }} />
                   <Line type="monotone" dataKey="d3" name="d=3 (17 phys/log)" stroke="#ef4444" strokeWidth={1.5} dot={{ r: 3 }} />
                   <Line type="monotone" dataKey="d5" name="d=5 (49 phys/log)" stroke="#f59e0b" strokeWidth={1.5} dot={{ r: 3 }} />
                   <Line type="monotone" dataKey="d7" name="d=7 (97 phys/log)" stroke="#10b981" strokeWidth={1.5} dot={{ r: 3 }} />
                   <Line type="monotone" dataKey="d15" name="d=15 (449 phys/log)" stroke="#a855f7" strokeWidth={1.5} dot={{ r: 3 }} />
                 </LineChart>
               </ResponsiveContainer>
+
+              {/* Responsive Custom Legend */}
+              <div className="mt-4 pt-3 border-t border-slate-900 flex flex-wrap justify-center gap-x-4 gap-y-2 text-[10px] text-slate-400">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-0.5" style={{ backgroundColor: '#ef4444' }} />
+                  <span>d=3 (17 phys/log)</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-0.5" style={{ backgroundColor: '#f59e0b' }} />
+                  <span>d=5 (49 phys/log)</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-0.5" style={{ backgroundColor: '#10b981' }} />
+                  <span>d=7 (97 phys/log)</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-0.5" style={{ backgroundColor: '#a855f7' }} />
+                  <span>d=15 (449 phys/log)</span>
+                </div>
+              </div>
             </div>
           </div>
 

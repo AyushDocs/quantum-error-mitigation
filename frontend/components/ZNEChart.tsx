@@ -133,12 +133,7 @@ export default function ZNEChart() {
                 formatter={(value: number, name: string) => [value.toFixed(isGrover ? 4 : 6), name]}
                 labelFormatter={(label) => `Noise Fold Factor: ${label}×`}
               />
-              <Legend 
-                verticalAlign="bottom" 
-                height={36} 
-                iconSize={8}
-                wrapperStyle={{ fontSize: '10px', color: '#94a3b8', paddingTop: '15px' }} 
-              />
+
 
               {/* Ideal line */}
               <Line data={[{ x: 0, y: isGrover ? groverResults.ideal : qftResults.idealFidelity }, { x: 10, y: isGrover ? groverResults.ideal : qftResults.idealFidelity }]}
@@ -170,6 +165,28 @@ export default function ZNEChart() {
                        fill={colorMap.Linear} name="Mitigated Stack Limit" stroke="#000" strokeWidth={1} shape="diamond" />
             </ComposedChart>
           </ResponsiveContainer>
+
+          {/* Responsive Custom Legend */}
+          <div className="mt-4 pt-4 border-t border-slate-800/40 flex flex-wrap justify-center gap-x-6 gap-y-3 text-[11px] text-slate-400">
+            <div className="flex items-center gap-1.5">
+              <div className="w-4 h-0.5 border-t border-dashed" style={{ borderColor: colorMap.Ideal }} />
+              <span>Ideal Limit</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <div className="w-2 h-2 rounded-full" style={{ backgroundColor: colorMap.Measured }} />
+              <span>Measured (Noisy Hardware)</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <div className="w-2.5 h-2.5 rotate-45 border" style={{ backgroundColor: colorMap.Linear, borderColor: '#000' }} />
+              <span>Mitigated Stack Limit</span>
+            </div>
+            {ALL_FITS.filter(f => activeFits.has(f)).map(fitName => (
+              <div key={fitName} className="flex items-center gap-1.5">
+                <div className="w-4 h-0.5" style={{ backgroundColor: colorMap[fitName] }} />
+                <span>{fitName} Fit</span>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Interactive Fit selectors */}
