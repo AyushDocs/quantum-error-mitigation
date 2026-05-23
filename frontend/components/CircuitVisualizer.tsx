@@ -226,8 +226,8 @@ export default function CircuitVisualizer() {
                 }}
               />
 
-              <div className="relative z-10 flex items-center justify-between text-xs font-mono text-slate-500 mb-6">
-                <span>INPUT |00...0⟩</span>
+              <div className="relative z-10 flex flex-row items-center justify-between text-xs font-mono text-slate-500 mb-6 gap-2">
+                <span>INPUT</span>
                 <span className="text-quantum-400 font-semibold uppercase tracking-widest flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-quantum-400 animate-ping" />
                   Noise Level: {relativeNoise}%
@@ -237,7 +237,7 @@ export default function CircuitVisualizer() {
 
               {/* SVG/CSS Circuit Representation */}
               <div className="relative z-10 my-auto py-6 overflow-x-auto">
-                <div className="flex items-center justify-center gap-4 min-w-[500px]">
+                <div className="flex items-center justify-start md:justify-center gap-4 min-w-[500px] px-4">
                   {/* Start State */}
                   <div className="flex flex-col items-center">
                     <div className="w-14 h-10 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-xs font-bold text-slate-400 font-mono shadow-md whitespace-nowrap">
@@ -299,11 +299,15 @@ export default function CircuitVisualizer() {
 
               {/* Explanatory description below the circuit */}
               <div className="relative z-10 mt-6 pt-4 border-t border-slate-800/60 flex flex-col md:flex-row items-center justify-between text-xs text-slate-400 gap-4">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-quantum-500" />
-                  <span>Original Circuit</span>
-                  <div className="w-3 h-3 rounded-full bg-emerald-950/20 border border-quantum-400/50 border-dashed ml-3" />
-                  <span>Folded Pairs (Identity)</span>
+                <div className="flex flex-wrap items-center gap-2 justify-center md:justify-start">
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-quantum-500" />
+                    <span>Original Circuit</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 ml-0 sm:ml-3">
+                    <div className="w-3 h-3 rounded-full bg-emerald-950/20 border border-quantum-400/50 border-dashed" />
+                    <span>Folded Pairs (Identity)</span>
+                  </div>
                 </div>
                 <div className="font-mono text-quantum-300 bg-quantum-950/60 border border-quantum-500/20 px-3 py-1 rounded-md">
                   {algoKey === 'grover' 
