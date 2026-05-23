@@ -99,28 +99,33 @@ export default function ZNEChart() {
         {/* Recharts Chart */}
         <div className="gradient-border rounded-2xl p-6 bg-quantum-950/10 mb-8 shadow-inner">
           <ResponsiveContainer width="100%" height={400}>
-            <ComposedChart margin={{ top: 25, right: 30, left: 20, bottom: 15 }}>
+            <ComposedChart margin={{ top: 25, right: 30, left: 35, bottom: 35 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#12241a" />
               <XAxis
                 dataKey="x"
                 type="number"
                 domain={[0, 10]}
                 tick={{ fill: '#94a3b8', fontSize: 11 }}
-                label={{ value: 'Fold Factor (noise multiplier)', position: 'bottom', fill: '#94a3b8', offset: -5, fontSize: 12 }}
+                label={{ value: 'Fold Factor (noise multiplier)', position: 'bottom', fill: '#94a3b8', offset: 10, fontSize: 12 }}
                 allowDataOverflow
               />
               <YAxis
                 domain={yDomain}
                 tickFormatter={yTickFormatter}
                 tick={{ fill: '#94a3b8', fontSize: 11 }}
-                label={{ value: yLabel, angle: -90, position: 'insideLeft', fill: '#94a3b8', offset: -10, fontSize: 12 }}
+                label={{ value: yLabel, angle: -90, position: 'insideLeft', fill: '#94a3b8', offset: -15, fontSize: 12 }}
               />
               <Tooltip
                 contentStyle={{ background: '#05180f', border: '1px solid #10b981', borderRadius: '12px', color: '#e2e8f0' }}
                 formatter={(value: number, name: string) => [value.toFixed(isGrover ? 4 : 6), name]}
                 labelFormatter={(label) => `Noise Fold Factor: ${label}×`}
               />
-              <Legend wrapperStyle={{ fontSize: '11px', color: '#94a3b8' }} />
+              <Legend 
+                verticalAlign="bottom" 
+                height={36} 
+                iconSize={8}
+                wrapperStyle={{ fontSize: '10px', color: '#94a3b8', paddingTop: '15px' }} 
+              />
 
               {/* Ideal line */}
               <Line data={[{ x: 0, y: isGrover ? groverResults.ideal : qftResults.idealFidelity }, { x: 10, y: isGrover ? groverResults.ideal : qftResults.idealFidelity }]}
@@ -139,10 +144,10 @@ export default function ZNEChart() {
                   <React.Fragment key={fitName}>
                     <Line data={fitVals} type="monotone" dataKey="y"
                           stroke={colorMap[fitName]} strokeDasharray="6 3"
-                          dot={false} name={`${fitName} fit`} isAnimationActive={false} strokeWidth={1.5} />
+                          dot={false} name={`${fitName} Fit`} isAnimationActive={false} strokeWidth={1.5} />
                     <Scatter data={[{ x: 0, y: zneVal }]}
                              fill={colorMap[fitName]} name={`${fitName} ZNE`}
-                             stroke="#000" strokeWidth={0.5} shape="star" />
+                             stroke="#000" strokeWidth={0.5} shape="star" legendType="none" />
                   </React.Fragment>
                 )
               })}

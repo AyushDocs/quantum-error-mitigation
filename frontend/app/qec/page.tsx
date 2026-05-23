@@ -2,6 +2,18 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import {
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
+} from 'recharts'
+
+const overheadData = [
+  { logical: 1, d3: 17, d5: 49, d7: 97, d15: 449 },
+  { logical: 10, d3: 170, d5: 490, d7: 970, d15: 4490 },
+  { logical: 25, d3: 425, d5: 1225, d7: 2425, d15: 11225 },
+  { logical: 50, d3: 850, d5: 2450, d7: 4850, d15: 22450 },
+  { logical: 75, d3: 1275, d5: 3675, d7: 7275, d15: 33675 },
+  { logical: 100, d3: 1700, d5: 4900, d7: 9700, d15: 44900 }
+]
 
 export default function QECPage() {
   // 9 Data Qubits represented as a flat array of 9 booleans (true = X bit-flip error)
@@ -81,22 +93,33 @@ export default function QECPage() {
 
         {/* Section 1: Core Theory */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
-          <div className="gradient-border rounded-2xl p-8 bg-quantum-950/10 backdrop-blur-sm space-y-4">
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <span className="text-red-400">01.</span> The QEC Principle
-            </h2>
-            <p className="text-sm text-slate-350 leading-relaxed">
-              We cannot copy quantum states (No-Cloning Theorem) nor measure them directly (collapsing superposition). QEC bypasses this by encoding one <strong>logical qubit</strong> into a multi-qubit entangled state of <strong>physical qubits</strong>.
-            </p>
-            <div className="p-4 bg-black/45 border border-slate-800 rounded-xl space-y-2 text-xs font-mono">
-              <div className="text-quantum-300 font-bold">3-Qubit Bit-Flip Encoding:</div>
-              <div>|ψ_logical⟩ = a|000⟩ + b|111⟩</div>
-              <div className="text-slate-500 mt-2">Stabilizers (Generators):</div>
-              <div>S = {"{ Z₁Z₂I, IZ₂Z₃ }"}</div>
+          <div className="gradient-border rounded-2xl p-8 bg-quantum-950/10 backdrop-blur-sm space-y-4 flex flex-col justify-between">
+            <div>
+              <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                <span className="text-red-400">01.</span> The QEC Principle
+              </h2>
+              <p className="text-sm text-slate-350 leading-relaxed">
+                We cannot copy quantum states (No-Cloning Theorem) nor measure them directly (collapsing superposition). QEC bypasses this by encoding one <strong>logical qubit</strong> into a multi-qubit entangled state of <strong>physical qubits</strong>.
+              </p>
+              <div className="p-4 bg-black/45 border border-slate-800 rounded-xl space-y-2 text-xs font-mono my-3">
+                <div className="text-quantum-300 font-bold">3-Qubit Bit-Flip Encoding:</div>
+                <div>|ψ<sub>logical</sub>⟩ = a|000⟩ + b|111⟩</div>
+                <div className="text-slate-500 mt-2">Stabilizers (Generators):</div>
+                <div>S = {'{'} Z<sub>1</sub>Z<sub>2</sub>I, IZ<sub>2</sub>Z<sub>3</sub> {'}'}</div>
+              </div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Stabilizers commute with the encoded state, meaning measuring them yields +1 without altering the coefficients a and b. If a bit-flip error (X<sub>1</sub>) occurs, the stabilizers anti-commute, and measurement yields a -1 syndrome, exposing the exact error location!
+              </p>
             </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Stabilizers commute with the encoded state, meaning measuring them yields +1 without altering the coefficients a and b. If a bit-flip error (X₁) occurs, the stabilizers anti-commute, and measurement yields a -1 syndrome, exposing the exact error location!
-            </p>
+            <div className="pt-3 border-t border-slate-900/60 mt-2">
+              <Link
+                href="/stabilizers"
+                className="inline-flex items-center gap-1 text-red-400 hover:text-red-300 font-bold transition-colors group"
+              >
+                Explore Stabilizer Formalism & Math
+                <span className="transform transition-transform group-hover:translate-x-1">→</span>
+              </Link>
+            </div>
           </div>
 
           <div className="gradient-border rounded-2xl p-8 bg-quantum-950/10 backdrop-blur-sm space-y-4 flex flex-col justify-between">
@@ -134,7 +157,7 @@ export default function QECPage() {
           
           <h2 className="text-2xl font-bold text-white mb-2">Interactive 2D Surface Code Simulator</h2>
           <p className="text-sm text-slate-400 mb-8 max-w-3xl">
-            Click on the white <strong>Data Qubits</strong> (D₀ through D₈) to inject bit-flip errors (represented in red). Observe how the colored <strong>Stabilizer Ancillas</strong> (Z₀₀ through Z₁₁) monitor syndrome measurements and light up when an odd number of connected data qubits are corrupted!
+            Click on the white <strong>Data Qubits</strong> (D<sub>0</sub> through D<sub>8</sub>) to inject bit-flip errors (represented in red). Observe how the colored <strong>Stabilizer Ancillas</strong> (Z<sub>00</sub> through Z<sub>11</sub>) monitor syndrome measurements and light up when an odd number of connected data qubits are corrupted!
           </p>
 
           <div className="grid md:grid-cols-12 gap-8 items-center">
@@ -218,6 +241,7 @@ export default function QECPage() {
                         stroke={hasError ? '#f87171' : '#475569'}
                         strokeWidth="2"
                         className="transition-all duration-200 group-hover:scale-[1.15] group-hover:stroke-quantum-400"
+                        style={{ transformOrigin: 'center', transformBox: 'fill-box' }}
                       />
                       <text
                         x={dq.x}
@@ -286,11 +310,22 @@ export default function QECPage() {
           </p>
 
           <div className="grid md:grid-cols-2 gap-6 text-xs leading-relaxed">
-            <div className="p-5 rounded-xl bg-black/40 border border-slate-900 space-y-2">
-              <strong className="text-white block text-sm">1. Minimum Weight Perfect Matching (MWPM)</strong>
-              <p className="text-slate-400">
-                Models the syndrome nodes as vertices in a graph and finds the matching of minimum total distance (representing the most probable errors). It is mathematically optimal for depolarizing noise but scales poorly (O(V³)), making it difficult to run in real-time at scale.
-              </p>
+            <div className="p-5 rounded-xl bg-black/40 border border-slate-900 space-y-2 flex flex-col justify-between">
+              <div>
+                <strong className="text-white block text-sm">1. Minimum Weight Perfect Matching (MWPM)</strong>
+                <p className="text-slate-400">
+                  Models the syndrome nodes as vertices in a graph and finds the matching of minimum total distance (representing the most probable errors). It is mathematically optimal for depolarizing noise but scales poorly (O(V³)), making it difficult to run in real-time at scale.
+                </p>
+              </div>
+              <div className="pt-3 border-t border-slate-900/60 mt-2">
+                <Link
+                  href="/mwpm"
+                  className="inline-flex items-center gap-1 text-red-400 hover:text-red-300 font-bold transition-colors group"
+                >
+                  Explore MWPM Decoder & Simulator
+                  <span className="transform transition-transform group-hover:translate-x-1">→</span>
+                </Link>
+              </div>
             </div>
             <div className="p-5 rounded-xl bg-black/40 border border-slate-900 space-y-2">
               <strong className="text-white block text-sm">2. Union-Find Decoder</strong>
@@ -304,43 +339,75 @@ export default function QECPage() {
         {/* Section 4: Scaling & Qubit Overhead */}
         <div className="gradient-border rounded-2xl p-8 bg-quantum-950/10 mb-16">
           <h2 className="text-2xl font-bold text-white mb-2">Physical Qubit Overhead</h2>
-          <p className="text-sm text-slate-400 mb-6">
-            Topological codes protect states exponentially with the code distance d. To increase code distance, the number of required physical qubits scales quadratically: N = 2d² - 1.
-          </p>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs text-left">
-              <thead>
-                <tr className="border-b border-slate-800 text-slate-500 uppercase tracking-widest font-semibold text-[10px]">
-                  <th className="pb-3 font-medium">Distance (d)</th>
-                  <th className="pb-3 font-medium">Data Qubits (d²)</th>
-                  <th className="pb-3 font-medium">Measure Qubits (d² - 1)</th>
-                  <th className="pb-3 font-medium text-right">Total Physical Qubits</th>
-                  <th className="pb-3 font-medium text-right">Fault Tolerance Limit</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-900/60 font-mono text-slate-350">
-                {[
-                  { d: 3, data: 9, meas: 8, total: 17, threshold: '10⁻³ logical error' },
-                  { d: 5, data: 25, meas: 24, total: 49, threshold: '10⁻⁵ logical error' },
-                  { d: 7, data: 49, meas: 48, total: 97, threshold: '10⁻⁷ logical error' },
-                  { d: 9, data: 81, meas: 80, total: 161, threshold: '10⁻⁹ logical error' },
-                  { d: 15, data: 225, meas: 224, total: 449, threshold: '10⁻¹⁵ logical error' },
-                ].map(row => (
-                  <tr key={row.d} className="hover:bg-quantum-950/10 transition-colors">
-                    <td className="py-3 font-bold text-white">d = {row.d}</td>
-                    <td className="py-3">{row.data}</td>
-                    <td className="py-3">{row.meas}</td>
-                    <td className="py-3 text-right font-bold text-quantum-300">{row.total}</td>
-                    <td className="py-3 text-right text-slate-400">{row.threshold}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="grid lg:grid-cols-12 gap-8 items-center mt-6">
+            <div className="lg:col-span-5 space-y-4">
+              <p className="text-sm text-slate-400 leading-relaxed">
+                Topological codes protect states exponentially with the code distance d. To increase code distance, the number of required physical qubits scales quadratically: N = 2d² - 1 per logical qubit.
+              </p>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs text-left">
+                  <thead>
+                    <tr className="border-b border-slate-800 text-slate-500 uppercase tracking-widest font-semibold text-[10px]">
+                      <th className="pb-3 font-medium">Distance (d)</th>
+                      <th className="pb-3 font-medium">Data Qubits (d²)</th>
+                      <th className="pb-3 font-medium text-right">Total Physical</th>
+                      <th className="pb-3 font-medium text-right">Logical Limit</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-900/60 font-mono text-slate-350">
+                    {[
+                      { d: 3, data: 9, total: 17, threshold: '10⁻³ error' },
+                      { d: 5, data: 25, total: 49, threshold: '10⁻⁵ error' },
+                      { d: 7, data: 49, total: 97, threshold: '10⁻⁷ error' },
+                      { d: 9, data: 81, total: 161, threshold: '10⁻⁹ error' },
+                      { d: 15, data: 225, total: 449, threshold: '10⁻¹⁵ error' },
+                    ].map(row => (
+                      <tr key={row.d} className="hover:bg-quantum-950/10 transition-colors">
+                        <td className="py-2.5 font-bold text-white">d = {row.d}</td>
+                        <td className="py-2.5">{row.data}</td>
+                        <td className="py-2.5 text-right font-bold text-quantum-300">{row.total}</td>
+                        <td className="py-2.5 text-right text-slate-400">{row.threshold}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div className="lg:col-span-7 bg-black/40 p-6 rounded-2xl border border-slate-800">
+              <h3 className="text-sm font-bold text-white mb-4 text-center">
+                Logical vs. Physical Qubit Scaling
+              </h3>
+              <ResponsiveContainer width="100%" height={260}>
+                <LineChart data={overheadData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#12241a" />
+                  <XAxis
+                    dataKey="logical"
+                    tick={{ fill: '#94a3b8', fontSize: 10 }}
+                    label={{ value: 'Logical Qubits', position: 'bottom', fill: '#94a3b8', offset: -5, fontSize: 10 }}
+                  />
+                  <YAxis
+                    tickFormatter={val => val >= 1000 ? `${(val / 1000).toFixed(0)}k` : val}
+                    tick={{ fill: '#94a3b8', fontSize: 10 }}
+                  />
+                  <Tooltip
+                    contentStyle={{ background: '#05180f', border: '1px solid #10b981', borderRadius: '12px', color: '#e2e8f0', fontSize: '11px' }}
+                    labelFormatter={(label) => `Logical Qubits: ${label}`}
+                  />
+                  <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '10px' }} />
+                  <Line type="monotone" dataKey="d3" name="d=3 (17 phys/log)" stroke="#ef4444" strokeWidth={1.5} dot={{ r: 3 }} />
+                  <Line type="monotone" dataKey="d5" name="d=5 (49 phys/log)" stroke="#f59e0b" strokeWidth={1.5} dot={{ r: 3 }} />
+                  <Line type="monotone" dataKey="d7" name="d=7 (97 phys/log)" stroke="#10b981" strokeWidth={1.5} dot={{ r: 3 }} />
+                  <Line type="monotone" dataKey="d15" name="d=15 (449 phys/log)" stroke="#a855f7" strokeWidth={1.5} dot={{ r: 3 }} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
           </div>
 
-          <div className="mt-6 pt-4 border-t border-slate-900 text-xs text-slate-500 leading-relaxed">
-            *Note: To run a 100 logical qubit algorithm (such as Shor&apos;s algorithm) with a target logical error rate of 10⁻¹⁵ (d = 15), you would require 100 × 449 = 44,900 high-quality physical qubits! This heavy overhead highlights the immediate, present-day value of zero-overhead Quantum Error Mitigation techniques.
+          <div className="mt-6 pt-4 border-t border-slate-900 text-xs text-slate-400 leading-relaxed font-semibold">
+            Note: To run a 100 logical qubit algorithm (such as Shor&apos;s algorithm) with a target logical error rate of 10⁻¹⁵ (d = 15), you would require 100 × 449 = 44,900 high-quality physical qubits! This heavy overhead highlights the immediate, present-day value of zero-overhead Quantum Error Mitigation techniques.
           </div>
         </div>
       </div>

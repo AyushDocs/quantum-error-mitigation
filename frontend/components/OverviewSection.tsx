@@ -21,7 +21,7 @@ export default function OverviewSection() {
         <div className="grid md:grid-cols-2 gap-8 mb-16">
           <div className="p-8 rounded-2xl border border-red-500/10 bg-red-950/5 glow-card flex flex-col justify-between">
             <div>
-              <div className="text-red-400 text-xs font-bold uppercase tracking-widest mb-3">❌ Quantum Error Correction</div>
+              <div className="text-red-400 text-xs font-bold uppercase tracking-widest mb-3">Quantum Error Correction</div>
               <h3 className="text-xl font-bold text-white mb-3">Full Fault Tolerance</h3>
               <ul className="space-y-3 text-sm text-slate-400">
                 <li className="flex gap-3">
@@ -47,7 +47,7 @@ export default function OverviewSection() {
           </div>
 
           <div className="p-8 rounded-2xl border border-quantum-500/10 bg-quantum-950/5 glow-card">
-            <div className="text-quantum-400 text-xs font-bold uppercase tracking-widest mb-3">✅ Quantum Error Mitigation</div>
+            <div className="text-quantum-400 text-xs font-bold uppercase tracking-widest mb-3">Quantum Error Mitigation</div>
             <h3 className="text-xl font-bold text-white mb-3">Post-Processing Correction</h3>
             <ul className="space-y-3 text-sm text-slate-400">
               <li className="flex gap-3">

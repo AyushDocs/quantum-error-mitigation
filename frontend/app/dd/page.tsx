@@ -49,41 +49,18 @@ export default function DDPage() {
           </p>
         </div>
 
-        {/* Section 1: Concept & Python Draft */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
+        {/* Section 1: Concept */}
+        <div className="mb-16">
           <div className="gradient-border rounded-2xl p-8 bg-quantum-950/10 space-y-4">
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <span className="text-quantum-400">01.</span> What is Dynamical Decoupling?
+              What is Dynamical Decoupling?
             </h2>
             <p className="text-sm text-slate-350 leading-relaxed">
-              When executing complex quantum circuits (such as Grover&apos;s diffuser or QFT swap networks), entangling gates (CNOT, CZ) take significantly longer than single-qubit gates. Qubits not participating in these gates must sit <strong>idle</strong>, during which they accumulate dephasing noise (T₂ dephasing) and interact destructively via crosstalk.
+              When executing complex quantum circuits (such as Grover&apos;s diffuser or QFT swap networks), entangling gates (CNOT, CZ) take significantly longer than single-qubit gates. Qubits not participating in these gates must sit <strong>idle</strong>, during which they accumulate dephasing noise (T<sub>2</sub> dephasing) and interact destructively via crosstalk.
             </p>
             <p className="text-sm text-slate-350 leading-relaxed">
               Dynamical Decoupling is a passive control technique that solves this by applying a sequence of fast pulses (e.g. X or Y phase reversals) that rotate the qubit state. Because these rotations cancel out to identity, they do not change the computational logic, but they effectively cancel out low-frequency environmental noise.
             </p>
-          </div>
-
-          <div className="gradient-border rounded-2xl p-8 bg-quantum-950/10 space-y-4">
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <span className="text-quantum-400">02.</span> Qiskit Implementation Pass
-            </h2>
-            <p className="text-xs text-slate-450 mb-3">
-              We can configure a transpiler pass in Qiskit to schedule idle periods and inject DD pulse sequences automatically:
-            </p>
-            <div className="p-4 bg-black/60 border border-slate-800 rounded-xl font-mono text-xs text-slate-300 overflow-x-auto">
-              <pre>{`def apply_dynamical_decoupling(circuit, dd_sequence=['x', 'x']):
-    """Inserts DD pulse sequences into idle periods of a circuit."""
-    from qiskit.transpiler.passes import PadDelay, DynamicalDecoupling
-    from qiskit.circuit.library import XGate
-    
-    # 1. Schedule the circuit to find idle times (delays)
-    # 2. Define the DD sequence (e.g. CPMG: X - X)
-    dd_gates = [XGate(), XGate()]
-    
-    # 3. Apply the Qiskit DynamicalDecoupling pass
-    # Returns a circuit with DD pulses injected
-    pass`}</pre>
-            </div>
           </div>
         </div>
 
@@ -195,7 +172,7 @@ export default function DDPage() {
 
               {/* Display Resulting Error */}
               <div className="p-4 rounded-xl bg-black/40 border border-slate-900 text-center">
-                <div className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Qubit Dephasing Error (T₂)</div>
+                <div className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Qubit Dephasing Error (T<sub>2</sub>)</div>
                 <div className={`text-3xl font-bold font-mono mt-2 transition-all ${
                   dephasingError > 0.4 ? 'text-rose-400' : dephasingError > 0.1 ? 'text-amber-400' : 'text-quantum-400'
                 }`}>

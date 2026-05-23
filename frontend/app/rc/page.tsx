@@ -67,38 +67,18 @@ export default function RCPage() {
           </p>
         </div>
 
-        {/* Section 1: Concept & Python Draft */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
+        {/* Section 1: Concept */}
+        <div className="mb-16">
           <div className="gradient-border rounded-2xl p-8 bg-quantum-950/10 space-y-4">
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <span className="text-teal-400">01.</span> Why Twirl Gates?
+              Why Twirl Gates?
             </h2>
             <p className="text-sm text-slate-350 leading-relaxed">
-              Coherent systematic errors (e.g., control pulses that rotate $90.5^\circ$ instead of exactly $90^\circ$) accumulate quadratically in depth. They lead to complex interference and oscillatory decay curves that Richardson or Exponential models in ZNE fail to fit correctly.
+              Coherent systematic errors (e.g., control pulses that rotate 90.5° instead of exactly 90°) accumulate quadratically in depth. They lead to complex interference and oscillatory decay curves that Richardson or Exponential models in ZNE fail to fit correctly.
             </p>
             <p className="text-sm text-slate-350 leading-relaxed">
               <strong>Randomized Compiling (RC)</strong> inserts random single-qubit Pauli gates before entangling gates and applies matching correction gates after them to maintain the circuit logic. Doing this across many runs (compilation instances) averages out the systematic pulse errors into random, stochastic depolarizing noise. The resulting decay is strictly exponential and fits ZNE perfectly.
             </p>
-          </div>
-
-          <div className="gradient-border rounded-2xl p-8 bg-quantum-950/10 space-y-4">
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <span className="text-teal-400">02.</span> Compilation Python Code
-            </h2>
-            <p className="text-xs text-slate-450 mb-3">
-              Generate twirled equivalent circuits by conjugating entangling gates with Paulis:
-            </p>
-            <div className="p-4 bg-black/60 border border-slate-800 rounded-xl font-mono text-xs text-slate-300 overflow-x-auto">
-              <pre>{`def randomized_compile(circuit, num_randomizations=20):
-    """Generates logically equivalent circuits with twirled CZ gates."""
-    # For each CZ gate in the circuit:
-    # 1. Pick a random Pauli gate P1, P2 for qubits 1 and 2
-    # 2. Insert P1, P2 before the CZ
-    # 3. Compute matching Paulis P1', P2' to insert after CZ:
-    #    (P1' ⊗ P2') · CZ · (P1 ⊗ P2) = CZ
-    # 4. Compile and simplify adjacent single-qubit gates
-    pass`}</pre>
-            </div>
           </div>
         </div>
 

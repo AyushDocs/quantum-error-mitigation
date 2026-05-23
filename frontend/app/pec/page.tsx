@@ -56,41 +56,21 @@ export default function PECPage() {
           </p>
         </div>
 
-        {/* Section 1: Concept & Python Draft */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
+        {/* Section 1: Concept */}
+        <div className="mb-16">
           <div className="gradient-border rounded-2xl p-8 bg-quantum-950/10 space-y-4">
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <span className="text-cyan-400">01.</span> Unbiased Exact Cancellation
+              Unbiased Exact Cancellation
             </h2>
             <p className="text-sm text-slate-350 leading-relaxed">
               Unlike ZNE (which uses curves to approximate the zero-noise limit), PEC acts as a direct error filter. We first characterize the hardware noise channel of a gate. We then decompose the ideal target gate as a linear combination (quasi-probability distribution) of noisy hardware operations:
             </p>
             <div className="p-4 bg-black/45 border border-slate-800 rounded-xl font-mono text-xs text-quantum-300">
-              G_ideal = ∑ c_i * G_noisy_i
+              G<sub>ideal</sub> = ∑ c<sub>i</sub> · G<sub>noisy,i</sub>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed">
-              Since some coefficients $c_i$ are negative, we cannot sample directly. We define a normalization factor $\gamma = \sum |c_i| &gt; 1$, and sample configurations with probability $p_i = |c_i|/\gamma$. When taking the weighted average of outputs (scaled by sign products and $\gamma^d$), the noise bias is exactly canceled!
+              Since some coefficients c<sub>i</sub> are negative, we cannot sample directly. We define a normalization factor γ = Σ |c<sub>i</sub>| &gt; 1, and sample configurations with probability p<sub>i</sub> = |c<sub>i</sub>|/γ. When taking the weighted average of outputs (scaled by sign products and γ<sup>d</sup>), the noise bias is exactly canceled!
             </p>
-          </div>
-
-          <div className="gradient-border rounded-2xl p-8 bg-quantum-950/10 space-y-4">
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <span className="text-cyan-400">02.</span> PEC Python Simulator Draft
-            </h2>
-            <p className="text-xs text-slate-450 mb-3">
-              Quasi-probability sampling over a depolarizing error channel:
-            </p>
-            <div className="p-4 bg-black/60 border border-slate-800 rounded-xl font-mono text-xs text-slate-300 overflow-x-auto">
-              <pre>{`def run_pec_simulation(circuit, noise_model, shots=10000):
-    """Executes a circuit using Probabilistic Error Cancellation."""
-    # 1. Define ideal gate G and noisy gates G_i
-    # 2. Represent G = ∑ c_i * G_i where some c_i may be negative
-    # 3. Compute sampling probabilities p_i = |c_i| / γ, where γ = ∑ |c_i|
-    # 4. Sample and run:
-    #    For each shot: sample a gate from the G_i pool and track the sign product
-    # 5. Mitigated Expectation = γ^d * average(sign * outcome)
-    pass`}</pre>
-            </div>
           </div>
         </div>
 
@@ -141,7 +121,7 @@ export default function PECPage() {
                   <span className="text-slate-300 font-bold">{gammaSingle.toFixed(4)}</span>
                 </div>
                 <div className="flex justify-between font-mono">
-                  <span className="text-slate-500">Total Overhead (γᵈ):</span>
+                  <span className="text-slate-500">Total Overhead (γ<sup>d</sup>):</span>
                   <span className="text-slate-300 font-bold">{totalGamma.toFixed(2)}</span>
                 </div>
               </div>
@@ -168,7 +148,7 @@ export default function PECPage() {
 
                 <div className="mt-6 pt-4 border-t border-slate-800/80 text-[11px] text-slate-400 leading-relaxed">
                   {requiredShots > 1000000 ? (
-                    <strong className="text-red-400 block font-semibold">⚠️ Exponential Cost Warning:</strong>
+                    <strong className="text-red-400 block font-semibold">Exponential Cost Warning:</strong>
                   ) : requiredShots > 100000 ? (
                     <strong className="text-amber-400 block font-semibold">Moderate Overhead:</strong>
                   ) : (

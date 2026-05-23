@@ -79,10 +79,10 @@ export default function VerificationPage() {
               <span className="text-blue-400">01.</span> Symmetry & Subspaces
             </h2>
             <p className="text-sm text-slate-350 leading-relaxed">
-              Many quantum algorithms prepare target states that belong to a specific mathematical subspace or satisfy distinct symmetry constraints. For instance, in a 2-qubit Bell state $|00⟩ + |11⟩$, the sum of bits is always <strong>even</strong> (parity = 0).
+              Many quantum algorithms prepare target states that belong to a specific mathematical subspace or satisfy distinct symmetry constraints. For instance, in a 2-qubit Bell state |00⟩ + |11⟩, the sum of bits is always <strong>even</strong> (parity = 0).
             </p>
             <p className="text-sm text-slate-350 leading-relaxed">
-              If physical noise causes a single-qubit bit-flip error, the state becomes $|01⟩$ or $|10⟩$, which has <strong>odd</strong> parity. By monitoring this parity (either using an ancillary check qubit or via classical post-processing of the readout registry), we can detect that an error occurred and discard that specific trial.
+              If physical noise causes a single-qubit bit-flip error, the state becomes |01⟩ or |10⟩, which has <strong>odd</strong> parity. By monitoring this parity (either using an ancillary check qubit or via classical post-processing of the readout registry), we can detect that an error occurred and discard that specific trial.
             </p>
           </div>
 
@@ -95,7 +95,7 @@ export default function VerificationPage() {
             </p>
             <div className="p-4 bg-black/40 border border-slate-900 rounded-xl space-y-2 text-xs font-mono">
               <div className="text-quantum-300 font-bold">Parity Check Operator:</div>
-              <div>P = Z₁ ⊗ Z₂</div>
+              <div>P = Z<sub>1</sub> ⊗ Z<sub>2</sub></div>
               <div className="text-slate-500 mt-2">Post-Selection Rule:</div>
               <div>Discard if Measure(P) = -1</div>
             </div>
@@ -106,7 +106,7 @@ export default function VerificationPage() {
         <div className="gradient-border rounded-2xl p-8 bg-[#040e09] mb-16 shadow-inner">
           <h2 className="text-2xl font-bold text-white mb-2">Parity Filter Simulator</h2>
           <p className="text-sm text-slate-400 mb-8 max-w-3xl">
-            Simulate preparing the Bell state $|00⟩ + |11⟩$. Adjust the noise sliders to inject errors, and see how post-selecting (filtering out odd-parity results) recovers the target logical state fidelity.
+            Simulate preparing the Bell state |00⟩ + |11⟩. Adjust the noise sliders to inject errors, and see how post-selecting (filtering out odd-parity results) recovers the target logical state fidelity.
           </p>
 
           <div className="grid md:grid-cols-12 gap-8 items-center">
@@ -144,7 +144,7 @@ export default function VerificationPage() {
 
               <div className="p-4 bg-blue-950/10 border border-blue-500/10 rounded-xl text-xs text-slate-450 leading-relaxed">
                 <strong className="text-blue-400 block mb-1">Double-Flip Limit:</strong>
-                If both qubits flip ($D_0 \to 1$ and $D_1 \to 1$), the state becomes $|11⟩$. This preserves the even parity, meaning the checker will not catch the error. This is why post-selection fidelity is not exactly 100% under high noise.
+                If both qubits flip (D<sub>0</sub> → 1 and D<sub>1</sub> → 1), the state becomes |11⟩. This preserves the even parity, meaning the checker will not catch the error. This is why post-selection fidelity is not exactly 100% under high noise.
               </div>
             </div>
 

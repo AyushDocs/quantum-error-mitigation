@@ -1,34 +1,37 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, ReactNode } from 'react'
 
 interface AlgorithmInfo {
   name: string
+  shortName: string
   depth: number
   gates: number
   description: string
-  circuitSymbol: string
-  inverseSymbol: string
+  circuitSymbol: ReactNode
+  inverseSymbol: ReactNode
   originalCircuit: string[]
 }
 
 const ALGORITHMS: Record<string, AlgorithmInfo> = {
   grover: {
     name: "Grover's Search (2-Qubit)",
+    shortName: "Grover's",
     depth: 7,
     gates: 8,
     description: "Finds the target state |11⟩. It features H gates, an oracle CZ gate, and a diffuser containing X, H, and CZ gates. Its low qubit count makes it ideal for showing detailed gate folding.",
-    circuitSymbol: "U_G",
-    inverseSymbol: "U_G†",
+    circuitSymbol: <span>U<sub>G</sub></span>,
+    inverseSymbol: <span>U<sub>G</sub><sup>†</sup></span>,
     originalCircuit: ["H", "CZ", "H", "X", "CZ", "X", "H"],
   },
   qft: {
     name: "3-Qubit Quantum Fourier Transform",
+    shortName: "QFT",
     depth: 6,
     gates: 7,
     description: "Performs the Fourier transform of the quantum state. Built from Hadamard (H), Controlled-Phase (CP), and SWAP gates. It exhibits a uniform distribution at output.",
-    circuitSymbol: "U_QFT",
-    inverseSymbol: "U_QFT†",
+    circuitSymbol: <span>U<sub>QFT</sub></span>,
+    inverseSymbol: <span>U<sub>QFT</sub><sup>†</sup></span>,
     originalCircuit: ["H", "CP", "CP", "H", "CP", "H", "SWAP"],
   }
 }
@@ -43,7 +46,8 @@ export default function CircuitVisualizer() {
   const currentDepth = algo.depth * foldFactor
   const currentGates = algo.gates * foldFactor
   // Noise error probability approximation
-  const noiseScale = foldFactor === 1 ? '1.0x (Baseline)' : `${foldFactor}.0x`
+  const noiseScaleValue = foldFactor === 1 ? '1.0x' : `${foldFactor}.0x`
+  const noiseScaleLabel = foldFactor === 1 ? 'Baseline' : `${foldFactor}x Noise`
   const relativeNoise = foldFactor === 1 ? 8 : foldFactor === 3 ? 24 : 40
 
   // Get folding sequence: e.g. for fold=3, [U, U†, U]
@@ -75,6 +79,49 @@ export default function CircuitVisualizer() {
           </p>
         </div>
 
+        {/* Baseline Circuit Architectures */}
+        <div className="grid grid-cols-1 gap-8 mb-12">
+          {/* Grover's Search Card */}
+          <div className="gradient-border rounded-2xl p-6 bg-quantum-950/10 border border-slate-800/60 relative overflow-hidden">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xs font-bold text-white uppercase tracking-wider">Grover&apos;s Search (2-Qubit) Baseline</h3>
+              <span className="px-2 py-0.5 rounded bg-quantum-950/80 border border-quantum-500/20 text-quantum-300 text-[10px] font-mono font-bold">
+                8 Gates | Depth 7
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-400 mb-6 leading-relaxed">
+              Finds the target state |11⟩. Consists of a Hadamard initialization, a Controlled-Z oracle, and a diffuser containing X, H, and CZ gates.
+            </p>
+            <div className="flex items-center justify-center py-4 bg-black/40 rounded-xl border border-slate-900 px-4">
+              <img 
+                src="/grover_circuit.png" 
+                alt="Grover's Search Baseline Circuit" 
+                className="max-h-[110px] object-contain"
+              />
+            </div>
+          </div>
+
+          {/* QFT Card */}
+          <div className="gradient-border rounded-2xl p-6 bg-quantum-950/10 border border-slate-800/60 relative overflow-hidden">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xs font-bold text-white uppercase tracking-wider">3-Qubit QFT Baseline</h3>
+              <span className="px-2 py-0.5 rounded bg-quantum-950/80 border border-quantum-500/20 text-quantum-300 text-[10px] font-mono font-bold">
+                7 Gates | Depth 6
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-400 mb-6 leading-relaxed">
+              Performs the Quantum Fourier Transform. Built from Hadamard, Controlled-Phase rotation, and SWAP gates to map states to the frequency domain.
+            </p>
+            <div className="flex items-center justify-center py-4 bg-black/40 rounded-xl border border-slate-900 px-4">
+              <img 
+                src="/qft_circuit.png" 
+                alt="3-Qubit QFT Baseline Circuit" 
+                className="max-h-[130px] object-contain"
+              />
+            </div>
+          </div>
+        </div>
+
         <div className="grid lg:grid-cols-12 gap-8 items-start">
           {/* Controls Panel */}
           <div className="lg:col-span-4 space-y-6">
@@ -85,13 +132,13 @@ export default function CircuitVisualizer() {
                   <button
                     key={key}
                     onClick={() => setAlgoKey(key)}
-                    className={`px-3 py-2.5 rounded-xl text-xs font-semibold transition-all border ${
+                    className={`px-3 py-2.5 rounded-xl text-xs font-bold transition-all border ${
                       algoKey === key
-                        ? 'bg-quantum-500/20 text-white border-quantum-400 shadow-md shadow-quantum-500/10'
+                        ? 'bg-quantum-500 text-black border-quantum-400 shadow-md shadow-quantum-500/25 font-bold'
                         : 'bg-black/20 text-slate-400 border-slate-800 hover:border-slate-700'
                     }`}
                   >
-                    {ALGORITHMS[key].name.split(" ")[0]}
+                    {ALGORITHMS[key].shortName}
                   </button>
                 ))}
               </div>
@@ -129,17 +176,20 @@ export default function CircuitVisualizer() {
             <div className="gradient-border rounded-2xl p-6 bg-quantum-950/20 backdrop-blur-md space-y-4">
               <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider">Physical Hardware Metrics</h3>
               <div className="grid grid-cols-3 gap-2 text-center">
-                <div className="p-3 bg-black/30 rounded-xl border border-slate-800/60">
-                  <div className="text-xs text-slate-500 mb-1">Gate Depth</div>
-                  <div className="text-lg font-bold text-white font-mono">{currentDepth}</div>
+                <div className="p-2.5 bg-black/30 rounded-xl border border-slate-800/60 flex flex-col justify-between min-h-[76px]">
+                  <div className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Gate Depth</div>
+                  <div className="text-base font-bold text-white font-mono mt-1">{currentDepth}</div>
                 </div>
-                <div className="p-3 bg-black/30 rounded-xl border border-slate-800/60">
-                  <div className="text-xs text-slate-500 mb-1">Gate Count</div>
-                  <div className="text-lg font-bold text-white font-mono">{currentGates}</div>
+                <div className="p-2.5 bg-black/30 rounded-xl border border-slate-800/60 flex flex-col justify-between min-h-[76px]">
+                  <div className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Gate Count</div>
+                  <div className="text-base font-bold text-white font-mono mt-1">{currentGates}</div>
                 </div>
-                <div className="p-3 bg-black/30 rounded-xl border border-slate-800/60">
-                  <div className="text-xs text-slate-500 mb-1">Noise Level</div>
-                  <div className="text-lg font-bold text-quantum-300 font-mono">{noiseScale}</div>
+                <div className="p-2.5 bg-black/30 rounded-xl border border-slate-800/60 flex flex-col justify-between min-h-[76px]">
+                  <div className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Noise Level</div>
+                  <div className="text-base font-bold text-quantum-300 font-mono mt-1 leading-tight">
+                    {noiseScaleValue}
+                    <span className="block text-[9px] text-slate-500 font-sans font-normal lowercase tracking-normal">({noiseScaleLabel})</span>
+                  </div>
                 </div>
               </div>
 
@@ -190,8 +240,8 @@ export default function CircuitVisualizer() {
                 <div className="flex items-center justify-center gap-4 min-w-[500px]">
                   {/* Start State */}
                   <div className="flex flex-col items-center">
-                    <div className="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-xs font-bold text-slate-400 font-mono shadow-md">
-                      |ψ_in⟩
+                    <div className="w-14 h-10 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-xs font-bold text-slate-400 font-mono shadow-md whitespace-nowrap">
+                      |ψ<sub>in</sub>⟩
                     </div>
                     <span className="text-[10px] text-slate-500 mt-2 font-mono">Start</span>
                   </div>
@@ -265,7 +315,7 @@ export default function CircuitVisualizer() {
             </div>
 
             {/* Step-by-Step folding animation detail */}
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-3 gap-4">
               <div className="p-5 rounded-2xl bg-black/20 border border-slate-800/60 space-y-2">
                 <h4 className="text-sm font-bold text-white flex items-center gap-2">
                   <span className="w-5 h-5 rounded-full bg-quantum-950 border border-quantum-500 flex items-center justify-center text-xs text-quantum-300 font-mono">1</span>
@@ -284,6 +334,21 @@ export default function CircuitVisualizer() {
                 <p className="text-xs text-slate-400 leading-relaxed">
                   By running at 1×, 3×, 5× fold factors, we map out the performance decay. Using this curve, we fit a function and extrapolate back to 0× noise (the perfect, unachievable zero-noise state).
                 </p>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-black/20 border border-slate-800/60 space-y-2">
+                <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-quantum-950 border border-quantum-500 flex items-center justify-center text-xs text-quantum-300 font-mono">3</span>
+                  Metric Calculations
+                </h4>
+                <div className="text-xs text-slate-400 space-y-1.5 leading-relaxed">
+                  <p>Metrics scale dynamically with the fold factor <code className="text-quantum-300 font-bold">k</code>:</p>
+                  <ul className="space-y-1">
+                    <li>• <strong className="text-white">Gate Depth:</strong> <code className="text-slate-300">Baseline ({algo.depth}) × k = {currentDepth}</code></li>
+                    <li>• <strong className="text-white">Gate Count:</strong> <code className="text-slate-300">Baseline ({algo.gates}) × k = {currentGates}</code></li>
+                    <li>• <strong className="text-white">Noise Level:</strong> <code className="text-slate-300">Baseline (8%) × k = {relativeNoise}%</code></li>
+                  </ul>
+                </div>
               </div>
             </div>
 

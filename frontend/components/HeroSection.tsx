@@ -28,7 +28,9 @@ export default function HeroSection() {
 
         <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto mb-10 leading-relaxed">
           Zero-Noise Extrapolation (ZNE) with digital gate folding and readout error correction
-          — practical error mitigation on <span className="text-quantum-300 font-semibold">today&apos;s</span> noisy intermediate-scale (NISQ) quantum hardware.
+          .
+          <br />
+           Practical error mitigation on <span className="text-quantum-300 font-semibold">today&apos;s</span> noisy intermediate-scale (NISQ) quantum hardware.
         </p>
 
         <div className="flex flex-wrap justify-center gap-4">
@@ -40,19 +42,6 @@ export default function HeroSection() {
              className="px-8 py-3 rounded-xl border border-quantum-500/30 text-quantum-300 hover:bg-quantum-950/60 font-semibold transition-all">
             View Stack Results
           </a>
-        </div>
-
-        <div className="mt-20 grid grid-cols-3 gap-6 max-w-2xl mx-auto">
-          {[
-            { value: '95.1%', label: 'Grover Error Reduction' },
-            { value: '2', label: 'Algorithms Evaluated' },
-            { value: '0', label: 'Extra Physical Qubits' },
-          ].map((stat) => (
-            <div key={stat.label} className="text-center">
-              <div className="text-2xl md:text-3xl font-extrabold text-quantum-350 text-white font-mono">{stat.value}</div>
-              <div className="text-[10px] text-slate-500 mt-1 uppercase tracking-widest font-semibold">{stat.label}</div>
-            </div>
-          ))}
         </div>
       </div>
 
