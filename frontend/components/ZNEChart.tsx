@@ -84,11 +84,11 @@ export default function ZNEChart() {
         </div>
 
         {/* Algorithm Switcher Tabs */}
-        <div className="flex justify-center mb-8">
-          <div className="inline-flex p-1 rounded-xl bg-black/40 border border-slate-800/80">
+        <div className="flex justify-center mb-8 w-full">
+          <div className="flex flex-col sm:flex-row p-1 rounded-xl bg-black/40 border border-slate-800/80 w-full sm:w-auto gap-1 sm:gap-0">
             <button
               onClick={() => setActiveAlgo('grover')}
-              className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
+              className={`px-3 py-2.5 sm:px-5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-center ${
                 activeAlgo === 'grover'
                   ? 'bg-quantum-500 text-black font-bold shadow-md'
                   : 'text-slate-400 hover:text-slate-200'
@@ -98,7 +98,7 @@ export default function ZNEChart() {
             </button>
             <button
               onClick={() => setActiveAlgo('qft')}
-              className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
+              className={`px-3 py-2.5 sm:px-5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-center ${
                 activeAlgo === 'qft'
                   ? 'bg-quantum-500 text-black font-bold shadow-md'
                   : 'text-slate-400 hover:text-slate-200'
@@ -194,7 +194,7 @@ export default function ZNEChart() {
         </div>
 
         {/* Metric Extrapolated Display cards */}
-        <div className="mt-12 grid sm:grid-cols-4 gap-4">
+        <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4">
           {ALL_FITS.map(name => {
             const val = results.zneExtrapolated[name as keyof typeof results.zneExtrapolated] as number
             return (

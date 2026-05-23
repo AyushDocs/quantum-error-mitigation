@@ -194,11 +194,11 @@ export default function StabilizersPage() {
                   </button>
                 </div>
 
-                <div className="grid grid-cols-5 gap-3">
+                <div className="flex flex-wrap gap-3 justify-start">
                   {Array.from({ length: code.qubits }).map((_, idx) => {
                     const currentErr = errors[idx] || 'I'
                     return (
-                      <div key={idx} className="p-3 bg-black/40 border border-slate-800 rounded-xl text-center space-y-3">
+                      <div key={idx} className="flex-1 min-w-[80px] max-w-[120px] p-3 bg-black/40 border border-slate-800 rounded-xl text-center space-y-3">
                         <div className="flex justify-center">
                           <div className={`w-8 h-8 rounded-full border flex items-center justify-center text-[10px] font-bold ${
                             currentErr !== 'I'

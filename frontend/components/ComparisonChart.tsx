@@ -46,11 +46,11 @@ export default function ComparisonChart() {
         </p>
 
         {/* Chart tabs */}
-        <div className="flex justify-center mb-8">
-          <div className="inline-flex p-1 rounded-xl bg-black/40 border border-slate-800/80">
+        <div className="flex justify-center mb-8 w-full">
+          <div className="flex flex-col sm:flex-row p-1 rounded-xl bg-black/40 border border-slate-800/80 w-full sm:w-auto gap-1 sm:gap-0">
             <button
               onClick={() => setCompTab('grover')}
-              className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
+              className={`px-3 py-2.5 sm:px-5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-center ${
                 isGrover
                   ? 'bg-quantum-500 text-black font-bold shadow-md'
                   : 'text-slate-400 hover:text-slate-200'
@@ -60,7 +60,7 @@ export default function ComparisonChart() {
             </button>
             <button
               onClick={() => setCompTab('qft')}
-              className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
+              className={`px-3 py-2.5 sm:px-5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-center ${
                 !isGrover
                   ? 'bg-quantum-500 text-black font-bold shadow-md'
                   : 'text-slate-400 hover:text-slate-200'

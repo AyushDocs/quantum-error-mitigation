@@ -13,7 +13,7 @@ export default function OverviewSection() {
               Error Mitigation
             </span>
           </h2>
-          <p className="text-slate-450 text-slate-400 text-lg max-w-3xl mx-auto">
+          <p className="text-slate-400 text-lg max-w-3xl mx-auto">
             Quantum systems are highly sensitive to noise. While full correction is a long-term goal, mitigation provides a practical solution that works today.
           </p>
         </div>

@@ -334,8 +334,8 @@ export default function MWPMPage() {
 
           <div className="grid md:grid-cols-12 gap-8 items-center">
             {/* SVG Graphic */}
-            <div className="md:col-span-7 flex justify-center bg-black/40 p-6 rounded-2xl border border-slate-800">
-              <svg width="400" height="250" className="overflow-visible font-mono">
+            <div className="md:col-span-7 flex justify-center bg-black/40 p-6 rounded-2xl border border-slate-800 overflow-x-auto w-full">
+              <svg width="400" height="250" className="overflow-visible font-mono min-w-[400px]">
                 {/* Boundaries */}
                 <line x1="20" y1="20" x2="20" y2="230" stroke="#a855f7" strokeWidth="3" opacity="0.6" strokeDasharray="4 4" />
                 <text x="15" y="15" textAnchor="start" fill="#a855f7" fontSize="9" fontWeight="bold">LEFT BOUNDARY</text>

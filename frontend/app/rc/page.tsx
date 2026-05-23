@@ -104,8 +104,8 @@ export default function RCPage() {
 
           <div className="grid md:grid-cols-12 gap-8 items-center">
             {/* SVG Visualizer */}
-            <div className="md:col-span-8 bg-black/40 p-6 rounded-2xl border border-slate-800 flex justify-center">
-              <svg width="450" height="150" className="overflow-visible font-mono">
+            <div className="md:col-span-8 bg-black/40 p-6 rounded-2xl border border-slate-800 flex justify-center overflow-x-auto w-full">
+              <svg width="450" height="150" className="overflow-visible font-mono min-w-[450px]">
                 {/* Wires */}
                 <line x1="20" y1="40" x2="430" y2="40" stroke="#475569" strokeWidth="2" />
                 <line x1="20" y1="100" x2="430" y2="100" stroke="#475569" strokeWidth="2" />

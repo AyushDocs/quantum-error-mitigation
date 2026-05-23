@@ -80,7 +80,7 @@ export default function CircuitVisualizer() {
         </div>
 
         {/* Baseline Circuit Architectures */}
-        <div className="grid grid-cols-1 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           {/* Grover's Search Card */}
           <div className="gradient-border rounded-2xl p-6 bg-quantum-950/10 border border-slate-800/60 relative overflow-hidden">
             <div className="flex justify-between items-center mb-4">
